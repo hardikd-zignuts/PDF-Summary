@@ -1,4 +1,4 @@
-import { DELETE_FIELDS_IN_STATE, SET_FIELDS_IN_STATE, SET_IMAGES_IN_STATE } from "./actionTypes"
+import { DELETE_FIELDS_IN_STATE, SET_FIELDS_IN_STATE, SET_IMAGES_IN_STATE, UPDATE_FIELDS_IN_STATE } from "./actionTypes"
 
 const initialState = {
     stateImage: [],
@@ -23,6 +23,11 @@ const pdfReducer = (state = initialState, action) => {
             return {
                 ...state,
                 fields: tempFields
+            }
+        case UPDATE_FIELDS_IN_STATE:
+            console.log(action.payLoad)
+            return {
+                ...state
             }
 
         default:

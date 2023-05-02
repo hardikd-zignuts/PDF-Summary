@@ -2,26 +2,50 @@ import { Button, Label, TextInput } from 'flowbite-react'
 import React, { useState } from 'react'
 import { AiFillDelete, AiFillEdit, AiFillSave } from 'react-icons/ai'
 import { useDispatch } from 'react-redux'
-import { deleteFieldsInState } from '../../redux/actions'
+import { deleteFieldsInState, updateFieldsInState } from '../../redux/actions'
+import { CheckValidationInField } from '../../utils/utils'
+import { toast } from 'react-hot-toast'
 
-const FormField = ({ id }) => {
+const FormField = ({ id, setIsValid }) => {
     const dispatch = useDispatch()
     const [isSave, setIsSave] = useState(false)
     const [isEdit, setIsEdit] = useState(true)
+    const [current, setCurrent] = useState({
+        id,
+        name: null,
+        startPage: null,
+        endPage: null
+    })
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setCurrent((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }));
+    };
     const handleEdit = () => {
         setIsSave(true)
         setIsEdit(false)
     }
     const handleSave = () => {
-        setIsSave(false)
-        setIsEdit(true)
+        if (CheckValidationInField(current)) {
+            setIsValid(false)
+            setIsSave(false)
+            setIsEdit(true)
+            dispatch(updateFieldsInState(current))
+        } else {
+            toast.error("Please fill all the fields")
+        }
     }
     const handleDelete = () => {
         dispatch(deleteFieldsInState(id))
     }
+    // useEffect(() => {
+    //     setIsValid(CheckValidationInField(current))
+    // }, [current, setIsValid])
     return (
         <>
-            <div className='bg-blue-100 p-2 border border-blue-400 rounded'>
+            <div className='bg-blue-100 p-2 border border-blue-400 rounded relative'>
                 <div className="mb-2 flex items-center justify-between mt-5">
                     {/* Chapter Name  */}
                     <div className='w-1/2 mx-3'>
@@ -30,10 +54,12 @@ const FormField = ({ id }) => {
                             className='w-32 text-2xl'
                         />
                         <TextInput
+                            onChange={handleInputChange}
                             disabled={isEdit}
                             className='text-2xl font-bold w-full   '
                             type="text"
                             sizing="sm"
+                            name='name'
                         />
                     </div>
                     {/* Start Page  */}
@@ -43,10 +69,12 @@ const FormField = ({ id }) => {
                             className='w-32 text-2xl'
                         />
                         <TextInput
+                            onChange={handleInputChange}
                             disabled={isEdit}
                             className='text-2xl font-bold'
                             type="number"
                             sizing="sm"
+                            name='startPage'
                         />
                     </div>
                     {/* End Page  */}
@@ -56,10 +84,12 @@ const FormField = ({ id }) => {
                             className='w-32 text-2xl'
                         />
                         <TextInput
+                            onChange={handleInputChange}
                             disabled={isEdit}
                             className='text-2xl font-bold w-full   '
                             type="number"
                             sizing="sm"
+                            name='endPage'
                         />
                     </div>
                 </div>
