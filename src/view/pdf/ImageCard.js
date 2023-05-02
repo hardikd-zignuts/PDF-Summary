@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { GoVerified } from 'react-icons/go';
+import { IoMdCheckmarkCircle } from 'react-icons/io';
 const ImageCard = ({ id, src, onSelect }) => {
     const [selected, setSelected] = useState(false);
 
@@ -23,7 +23,7 @@ const ImageCard = ({ id, src, onSelect }) => {
             {selected && (
                 <div className='absolute inset-0 flex items-center justify-center'>
                     <span className='text-white font-bold text-xl'>
-                        <GoVerified color='#000' size={50} />
+                        <IoMdCheckmarkCircle color='blue' size={50} />
                     </span>
                 </div>
             )}

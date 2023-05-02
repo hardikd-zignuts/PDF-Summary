@@ -1,8 +1,11 @@
 import React from 'react'
+import FormBox from '../../components/form/FormBox'
 
 const FormSection = () => {
     return (
-        <div>FormSection</div>
+        <>
+            <FormBox />
+        </>
     )
 }
 
