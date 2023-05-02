@@ -7,7 +7,7 @@ function App() {
     <>
       <AppBar />
       <section className="flex flex-row h-[100vh] mt-1">
-        <div className='w-1/2 border p-2'>
+        <div className='w-1/2 border p-2 overflow-y-auto'>
           <PDF />
         </div>
         <div className='w-1/2 border p-2'>

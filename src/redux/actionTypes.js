@@ -1,0 +1,1 @@
+export const SET_IMAGES_IN_STATE = 'SET_IMAGES_IN_STATE'
