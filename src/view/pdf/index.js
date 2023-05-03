@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import ImageData from '../../constant/ImageData'
-import ImageCard from './ImageCard'
+import ImageCard from '../../components/pdf/ImageCard'
 import { useDispatch } from 'react-redux'
 import { setImagesInState } from '../../redux/actions'
 

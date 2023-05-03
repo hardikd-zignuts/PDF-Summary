@@ -7,10 +7,12 @@ import { setFieldsInState } from '../../redux/actions';
 
 const FormBox = () => {
     const dispatch = useDispatch()
-    const [isValid, setIsValid] = useState(false)
+    const [open, setOpen] = useState(0)
+    // const [isValid, setIsValid] = useState(false)
     const fields = useSelector(state => state.fields)
     const handleChapterAdd = () => {
-        setIsValid(true)
+        // setIsValid(true)
+        setOpen(fields.length)
         dispatch(setFieldsInState([...fields, {
             id: fields.length,
             name: null,
@@ -22,12 +24,21 @@ const FormBox = () => {
         <>
             <div className="flex flex-col gap-4">
                 {
-                    fields.length !== 0 ? fields.map(item => <FormField setIsValid={setIsValid} key={item.id} {...item} />) :
+                    fields.length !== 0 ? fields.map(item => {
+                        return (
+                            <FormField
+                                open={open}
+                                setOpen={setOpen}
+                                key={item.id}
+                                {...item}
+                            />
+                        )
+                    }) :
                         <div className='text-center text-3xl p-3'>
                             There are No Chapters
                         </div>
                 }
-                <Button disabled={isValid} onClick={handleChapterAdd} color="blue" className='mx-2'>
+                <Button onClick={handleChapterAdd} color="blue" className='mx-2'>
                     <IoMdAdd className="mr-3 h-4 w-4" />
                     New Chapter
                 </Button>

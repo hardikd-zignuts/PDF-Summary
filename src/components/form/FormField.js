@@ -1,12 +1,12 @@
 import { Button, Label, TextInput } from 'flowbite-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AiFillDelete, AiFillEdit, AiFillSave } from 'react-icons/ai'
 import { useDispatch } from 'react-redux'
 import { deleteFieldsInState, updateFieldsInState } from '../../redux/actions'
 import { CheckValidationInField } from '../../utils/utils'
 import { toast } from 'react-hot-toast'
 
-const FormField = ({ id, setIsValid }) => {
+const FormField = ({ id, open }) => {
     const dispatch = useDispatch()
     const [isSave, setIsSave] = useState(false)
     const [isEdit, setIsEdit] = useState(true)
@@ -29,7 +29,6 @@ const FormField = ({ id, setIsValid }) => {
     }
     const handleSave = () => {
         if (CheckValidationInField(current)) {
-            setIsValid(false)
             setIsSave(false)
             setIsEdit(true)
             dispatch(updateFieldsInState(current))
@@ -40,9 +39,10 @@ const FormField = ({ id, setIsValid }) => {
     const handleDelete = () => {
         dispatch(deleteFieldsInState(id))
     }
-    // useEffect(() => {
-    //     setIsValid(CheckValidationInField(current))
-    // }, [current, setIsValid])
+    useEffect(() => {
+        setIsEdit(!(open === id))
+        setIsSave(open === id)
+    }, [open, id])
     return (
         <>
             <div className='bg-blue-100 p-2 border border-blue-400 rounded relative'>
@@ -96,18 +96,18 @@ const FormField = ({ id, setIsValid }) => {
                 <div className='mt-3 w-full flex justify-center'>
                     {
                         !isSave &&
-                        <Button onClick={handleEdit} color="gray" className='mx-2'>
+                        <Button onClick={handleEdit} color="blue" className='mx-2'>
                             <AiFillEdit className="mr-3 h-4 w-4" />
                             Edit
                         </Button>
                     }
                     {isSave &&
                         <>
-                            <Button onClick={handleDelete} color="gray" className='mx-2'>
+                            <Button onClick={handleDelete} color="red" className='mx-2'>
                                 <AiFillDelete className="mr-3 h-4 w-4" />
                                 Delete
                             </Button>
-                            <Button onClick={handleSave} color="gray" className='mx-2'>
+                            <Button onClick={handleSave} color="green" className='mx-2'>
                                 <AiFillSave className="mr-3 h-4 w-4" />
                                 Save
                             </Button>

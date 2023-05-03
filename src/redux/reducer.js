@@ -25,9 +25,18 @@ const pdfReducer = (state = initialState, action) => {
                 fields: tempFields
             }
         case UPDATE_FIELDS_IN_STATE:
-            console.log(action.payLoad)
+            let startPageNumber = parseInt(action.payLoad.startPage.trim())
+            let endPageNumber = parseInt(action.payLoad.endPage.trim())
+
+            let tempArr = [...state.fields]
+            tempArr[action.payLoad.id] = {
+                ...action.payLoad,
+                startPage: startPageNumber,
+                endPage: endPageNumber
+            }
             return {
-                ...state
+                ...state,
+                fields: tempArr
             }
 
         default:

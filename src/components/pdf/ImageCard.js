@@ -12,7 +12,7 @@ const ImageCard = ({ id, src, onSelect }) => {
 
     return (
         <div
-            className={`relative ${selected ? 'opacity-60' : ''} transition-opacity duration-500`}
+            className={`relative ${selected ? 'opacity-60' : ''} transition-opacity duration-500 cursor-pointer hover:opacity-60`}
             onClick={handleImageClick}
         >
             <img
