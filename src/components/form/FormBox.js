@@ -17,7 +17,7 @@ const FormBox = () => {
             id: fields.length,
             name: null,
             startPage: null,
-            endPage: null
+            endPage: null,
         }]))
     }
     return (

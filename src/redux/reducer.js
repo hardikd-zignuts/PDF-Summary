@@ -1,9 +1,9 @@
 import ImageData from "../constant/ImageData"
-import { DELETE_FIELDS_IN_STATE, RESET_TEMP_SELECT_IN_STATE, SET_FIELDS_IN_STATE, SET_IMAGES_IN_STATE, UPDATE_FIELDS_IN_STATE, UPDATE_TEMP_SELECT_IN_STATE } from "./actionTypes"
+import { DELETE_FIELDS_IN_STATE, RESET_TEMP_SELECT_IN_STATE, SET_FIELDS_IN_STATE, SET_IMAGES_IN_STATE, SET_TEMP_DATA, UPDATE_FIELDS_IN_STATE, UPDATE_TEMP_SELECT_IN_STATE } from "./actionTypes"
 
 const initialState = {
     stateImage: [],
-    selectTempData: null,
+    selectTempData: [],
     fields: []
 }
 
@@ -43,7 +43,6 @@ const pdfReducer = (state = initialState, action) => {
         case UPDATE_TEMP_SELECT_IN_STATE:
             const { startPage, endPage } = action.payLoad
             let temp = ImageData.slice(startPage - 1, endPage)
-
             return {
                 ...state,
                 stateImage: temp
@@ -52,6 +51,16 @@ const pdfReducer = (state = initialState, action) => {
             return {
                 ...state,
                 stateImage: []
+            }
+        case SET_TEMP_DATA:
+            let arr1 = []
+            const element = [...state.fields].find(ele => ele.id === action.payLoad.id)
+            if (element) {
+                arr1 = ImageData.slice(element.startPage - 1, element.endPage)
+            }
+            return {
+                ...state,
+                selectTempData: arr1
             }
 
         default:

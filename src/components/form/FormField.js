@@ -2,7 +2,7 @@ import { Button, Label, TextInput } from 'flowbite-react'
 import React, { useEffect, useState } from 'react'
 import { AiFillDelete, AiFillEdit, AiFillSave } from 'react-icons/ai'
 import { useDispatch } from 'react-redux'
-import { deleteFieldsInState, resetTempSelect, updateFieldsInState, updateTempSelect } from '../../redux/actions'
+import { deleteFieldsInState, resetTempSelect, setTempData, updateFieldsInState, updateTempSelect } from '../../redux/actions'
 import { CheckValidationInField } from '../../utils/utils'
 import { toast } from 'react-hot-toast'
 
@@ -53,6 +53,12 @@ const FormField = ({ id, open, setOpen }) => {
     useEffect(() => {
         dispatch(updateTempSelect(page))
     }, [page, dispatch])
+
+    useEffect(() => {
+        dispatch(setTempData({
+            id: open,
+        }))
+    }, [dispatch, open])
 
     useEffect(() => {
         setIsEdit(!(open === id))

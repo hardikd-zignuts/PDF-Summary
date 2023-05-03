@@ -10,9 +10,12 @@ const ImageCard = ({ id, src, onSelect }) => {
         onSelect({ id, src });
     };
     useEffect(() => {
-        if (selectTempData) {
+        console.log(selectTempData)
+        if (selectTempData.length > 0) {
+            console.log('selectTempData')
             setSelected(selectTempData.some((item) => item.id === id))
         } else {
+            console.log('stateImage')
             setSelected(stateImage.some((item) => item.id === id))
         }
     }, [id, selectTempData, stateImage])

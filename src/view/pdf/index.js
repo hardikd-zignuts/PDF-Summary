@@ -25,7 +25,13 @@ const PDF = () => {
                 const unselectedImages = selectedRange.filter(
                     (img) => !selectedImages.some((selectedImg) => selectedImg.id === img.id)
                 );
-                setSelectedImages([...selectedImages, ...unselectedImages]);
+                if (unselectedImages.length > 0) {
+                    const newSelectedImages = unselectedImages.map((img) => ({
+                        ...img,
+                        isChecked: true,
+                    }));
+                    setSelectedImages([...selectedImages, ...newSelectedImages]);
+                }
             }
         }
     };
