@@ -2,14 +2,15 @@ import { Button, Label, TextInput } from 'flowbite-react'
 import React, { useEffect, useState } from 'react'
 import { AiFillDelete, AiFillEdit, AiFillSave } from 'react-icons/ai'
 import { useDispatch } from 'react-redux'
-import { deleteFieldsInState, updateFieldsInState } from '../../redux/actions'
+import { deleteFieldsInState, resetTempSelect, updateFieldsInState, updateTempSelect } from '../../redux/actions'
 import { CheckValidationInField } from '../../utils/utils'
 import { toast } from 'react-hot-toast'
 
-const FormField = ({ id, open }) => {
+const FormField = ({ id, open, setOpen }) => {
     const dispatch = useDispatch()
     const [isSave, setIsSave] = useState(false)
     const [isEdit, setIsEdit] = useState(true)
+    const [page, setPage] = useState({ id, startPage: null, endPage: null })
     const [current, setCurrent] = useState({
         id,
         name: null,
@@ -22,23 +23,37 @@ const FormField = ({ id, open }) => {
             ...prevState,
             [name]: value,
         }));
+        if (name === 'startPage' || name === 'endPage') {
+            setPage((prevState) => ({
+                ...prevState,
+                [name]: parseInt(value)
+            }))
+        }
     };
     const handleEdit = () => {
+        setOpen(id)
         setIsSave(true)
         setIsEdit(false)
     }
     const handleSave = () => {
         if (CheckValidationInField(current)) {
+            setOpen(null)
             setIsSave(false)
             setIsEdit(true)
             dispatch(updateFieldsInState(current))
+            dispatch(resetTempSelect())
         } else {
             toast.error("Please fill all the fields")
         }
     }
     const handleDelete = () => {
+        setOpen(null)
         dispatch(deleteFieldsInState(id))
     }
+    useEffect(() => {
+        dispatch(updateTempSelect(page))
+    }, [page, dispatch])
+
     useEffect(() => {
         setIsEdit(!(open === id))
         setIsSave(open === id)
@@ -46,6 +61,7 @@ const FormField = ({ id, open }) => {
     return (
         <>
             <div className='bg-blue-100 p-2 border border-blue-400 rounded relative'>
+                {id}
                 <div className="mb-2 flex items-center justify-between mt-5">
                     {/* Chapter Name  */}
                     <div className='w-1/2 mx-3'>

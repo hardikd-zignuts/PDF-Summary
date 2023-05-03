@@ -3,14 +3,19 @@ import { IoMdCheckmarkCircle } from 'react-icons/io';
 import { useSelector } from 'react-redux';
 const ImageCard = ({ id, src, onSelect }) => {
     const stateImage = useSelector(state => state.stateImage)
+    const selectTempData = useSelector(state => state.selectTempData)
     const [selected, setSelected] = useState(false);
     const handleImageClick = () => {
         setSelected(!selected);
         onSelect({ id, src });
     };
     useEffect(() => {
-        setSelected(stateImage.some((item) => item.id === id))
-    }, [id, stateImage])
+        if (selectTempData) {
+            setSelected(selectTempData.some((item) => item.id === id))
+        } else {
+            setSelected(stateImage.some((item) => item.id === id))
+        }
+    }, [id, selectTempData, stateImage])
     return (
         <div
             className={`relative ${selected ? 'opacity-60' : ''} transition-opacity duration-500 cursor-pointer hover:opacity-60`}
