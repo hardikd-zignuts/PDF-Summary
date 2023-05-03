@@ -10,7 +10,7 @@ const pdfReducer = (state = initialState, action) => {
         case SET_IMAGES_IN_STATE:
             return {
                 ...state,
-                selectedImage: action.payLoad
+                stateImage: action.payLoad
             }
         case SET_FIELDS_IN_STATE:
             return {

@@ -69,6 +69,7 @@ const FormField = ({ id, open }) => {
                             className='w-32 text-2xl'
                         />
                         <TextInput
+                            min={0}
                             onChange={handleInputChange}
                             disabled={isEdit}
                             className='text-2xl font-bold'
@@ -84,6 +85,7 @@ const FormField = ({ id, open }) => {
                             className='w-32 text-2xl'
                         />
                         <TextInput
+                            min={0}
                             onChange={handleInputChange}
                             disabled={isEdit}
                             className='text-2xl font-bold w-full   '
