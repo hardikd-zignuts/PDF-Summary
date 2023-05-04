@@ -1,10 +1,11 @@
 import ImageData from "../constant/ImageData"
-import { DELETE_FIELDS_IN_STATE, RESET_TEMP_SELECT_IN_STATE, SET_FIELDS_IN_STATE, SET_IMAGES_IN_STATE, SET_TEMP_DATA, UPDATE_FIELDS_IN_STATE, UPDATE_TEMP_SELECT_IN_STATE } from "./actionTypes"
+import { DELETE_FIELDS_IN_STATE, RESET_SELECTED_IMAGES, RESET_TEMP_SELECT_IN_STATE, SET_FIELDS_IN_STATE, SET_IMAGES_IN_STATE, SET_TEMP_DATA, UPDATE_FIELDS_IN_STATE, UPDATE_TEMP_SELECT_IN_STATE } from "./actionTypes"
 
 const initialState = {
     stateImage: [],
     selectTempData: [],
-    fields: []
+    fields: [],
+    resetImage: false
 }
 
 const pdfReducer = (state = initialState, action) => {
@@ -61,6 +62,11 @@ const pdfReducer = (state = initialState, action) => {
             return {
                 ...state,
                 selectTempData: arr1
+            }
+        case RESET_SELECTED_IMAGES:
+            return {
+                ...state,
+                resetImage: !state.resetImage
             }
 
         default:

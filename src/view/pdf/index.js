@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import ImageData from '../../constant/ImageData'
 import ImageCard from '../../components/pdf/ImageCard'
-import { useDispatch } from 'react-redux'
-import { setImagesInState } from '../../redux/actions'
+import { useDispatch, useSelector } from 'react-redux'
+import { resetSelectedImages, setImagesInState } from '../../redux/actions'
 
 const PDF = () => {
     const dispatch = useDispatch()
     const [selectedImages, setSelectedImages] = useState([]);
+    const resetImage = useSelector(state => state.resetImage)
+
     const handleImageSelect = (item) => {
         const selectedIndex = selectedImages.findIndex((img) => img.id === item.id);
         if (selectedIndex === -1) {
@@ -39,6 +41,14 @@ const PDF = () => {
     useEffect(() => {
         dispatch(setImagesInState(selectedImages))
     }, [selectedImages, dispatch])
+
+    useEffect(() => {
+        if (resetImage) {
+            setSelectedImages([]);
+        } else {
+            dispatch(resetSelectedImages())
+        }
+    }, [resetImage, dispatch])
     return (
         <>
             <div className='grid grid-cols-2 md:grid-cols-3 gap-4'>

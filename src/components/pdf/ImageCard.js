@@ -10,15 +10,13 @@ const ImageCard = ({ id, src, onSelect }) => {
         onSelect({ id, src });
     };
     useEffect(() => {
-        console.log(selectTempData)
         if (selectTempData.length > 0) {
-            console.log('selectTempData')
             setSelected(selectTempData.some((item) => item.id === id))
         } else {
-            console.log('stateImage')
             setSelected(stateImage.some((item) => item.id === id))
         }
     }, [id, selectTempData, stateImage])
+
     return (
         <div
             className={`relative ${selected ? 'opacity-60' : ''} transition-opacity duration-500 cursor-pointer hover:opacity-60`}

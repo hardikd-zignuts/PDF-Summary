@@ -1,16 +1,18 @@
 import { Button, Label, TextInput } from 'flowbite-react'
 import React, { useEffect, useState } from 'react'
 import { AiFillDelete, AiFillEdit, AiFillSave } from 'react-icons/ai'
-import { useDispatch } from 'react-redux'
-import { deleteFieldsInState, resetTempSelect, setTempData, updateFieldsInState, updateTempSelect } from '../../redux/actions'
-import { CheckValidationInField } from '../../utils/utils'
+import { useDispatch, useSelector } from 'react-redux'
+import { deleteFieldsInState, resetSelectedImages, resetTempSelect, setTempData, updateFieldsInState, updateTempSelect } from '../../redux/actions'
+import { CheckValidationInField, GetMinAndMaxId } from '../../utils/utils'
 import { toast } from 'react-hot-toast'
 
 const FormField = ({ id, open, setOpen }) => {
     const dispatch = useDispatch()
+    const stateImage = useSelector(state => state.stateImage)
     const [isSave, setIsSave] = useState(false)
     const [isEdit, setIsEdit] = useState(true)
     const [page, setPage] = useState({ id, startPage: null, endPage: null })
+
     const [current, setCurrent] = useState({
         id,
         name: null,
@@ -42,6 +44,7 @@ const FormField = ({ id, open, setOpen }) => {
             setIsEdit(true)
             dispatch(updateFieldsInState(current))
             dispatch(resetTempSelect())
+            dispatch(resetSelectedImages())
         } else {
             toast.error("Please fill all the fields")
         }
@@ -49,11 +52,23 @@ const FormField = ({ id, open, setOpen }) => {
     const handleDelete = () => {
         setOpen(null)
         dispatch(deleteFieldsInState(id))
+        dispatch(resetSelectedImages())
     }
     useEffect(() => {
         dispatch(updateTempSelect(page))
     }, [page, dispatch])
 
+    useEffect(() => {
+        if (stateImage.length > 0) {
+            console.log('inside')
+            const numId = GetMinAndMaxId(stateImage)
+            setCurrent((prev) => ({
+                ...prev,
+                startPage: (numId.min).toString(),
+                endPage: (numId.max).toString()
+            }))
+        }
+    }, [stateImage])
     useEffect(() => {
         dispatch(setTempData({
             id: open,
@@ -67,7 +82,6 @@ const FormField = ({ id, open, setOpen }) => {
     return (
         <>
             <div className='bg-blue-100 p-2 border border-blue-400 rounded relative'>
-                {id}
                 <div className="mb-2 flex items-center justify-between mt-5">
                     {/* Chapter Name  */}
                     <div className='w-1/2 mx-3'>
@@ -92,6 +106,7 @@ const FormField = ({ id, open, setOpen }) => {
                         />
                         <TextInput
                             min={0}
+                            value={current.startPage}
                             onChange={handleInputChange}
                             disabled={isEdit}
                             className='text-2xl font-bold'
@@ -107,6 +122,7 @@ const FormField = ({ id, open, setOpen }) => {
                             className='w-32 text-2xl'
                         />
                         <TextInput
+                            value={current.endPage}
                             min={0}
                             onChange={handleInputChange}
                             disabled={isEdit}

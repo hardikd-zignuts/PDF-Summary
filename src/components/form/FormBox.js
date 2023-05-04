@@ -3,7 +3,8 @@ import { Button } from 'flowbite-react'
 import { IoMdAdd } from 'react-icons/io';
 import { useDispatch, useSelector } from 'react-redux';
 import FormField from './FormField';
-import { setFieldsInState } from '../../redux/actions';
+import { resetSelectedImages, setFieldsInState } from '../../redux/actions';
+import { CheckValidationInField } from '../../utils/utils';
 
 const FormBox = () => {
     const dispatch = useDispatch()
@@ -19,7 +20,10 @@ const FormBox = () => {
             startPage: null,
             endPage: null,
         }]))
+        dispatch(resetSelectedImages())
     }
+    console.log(fields)
+    console.log(CheckValidationInField(fields))
     return (
         <>
             <div className="flex flex-col gap-4">
