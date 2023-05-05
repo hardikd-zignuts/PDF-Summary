@@ -1,4 +1,4 @@
-import { DELETE_FIELDS_IN_STATE, RESET_SELECTED_IMAGES, RESET_TEMP_SELECT_IN_STATE, SET_FIELDS_IN_STATE, SET_IMAGES_IN_STATE, SET_TEMP_DATA, UPDATE_FIELDS_IN_STATE, UPDATE_TEMP_SELECT_IN_STATE } from "./actionTypes"
+import { DELETE_FIELDS_IN_STATE, RESET_SELECTED_IMAGES, RESET_TEMP_SELECT_IN_STATE, SET_FIELDS_IN_STATE, SET_IMAGES_IN_STATE, SET_TEMP_DATA, SET_VALID_STATUS, UPDATE_FIELDS_IN_STATE, UPDATE_TEMP_SELECT_IN_STATE } from "./actionTypes"
 
 
 export const setImagesInState = (data) => {
@@ -45,5 +45,11 @@ export const setTempData = (id) => {
 export const resetSelectedImages = () => {
     return {
         type: RESET_SELECTED_IMAGES,
+    }
+}
+export const setIsValidAddField = (status) => {
+    return {
+        type: SET_VALID_STATUS,
+        payLoad: status
     }
 }

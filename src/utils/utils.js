@@ -1,5 +1,5 @@
 export const CheckValidationInField = (data) => {
-    if (data.name === '' || data.startPage === null || data.endPage === null) {
+    if (data.name === null || data.startPage === null || data.endPage === null) {
         return false
     } else {
         return true
@@ -25,4 +25,9 @@ export const GetMinAndMaxId = (arr) => {
         max: maxNumber
     }
 
+}
+
+
+export const CheckValidationForButton = (data) => {
+    return data.some((item) => (item.startPage !== null || item.endPage !== null))
 }

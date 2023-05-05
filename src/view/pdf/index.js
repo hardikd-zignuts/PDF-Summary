@@ -3,41 +3,44 @@ import ImageData from '../../constant/ImageData'
 import ImageCard from '../../components/pdf/ImageCard'
 import { useDispatch, useSelector } from 'react-redux'
 import { resetSelectedImages, setImagesInState } from '../../redux/actions'
+import { GetMinAndMaxId } from '../../utils/utils'
 
 const PDF = () => {
     const dispatch = useDispatch()
     const [selectedImages, setSelectedImages] = useState([]);
     const resetImage = useSelector(state => state.resetImage)
-
+    const [flag, setFlag] = useState(false)
+    const [cId, setCId] = useState(null)
     const handleImageSelect = (item) => {
+        setFlag((prev) => !prev)
         const selectedIndex = selectedImages.findIndex((img) => img.id === item.id);
         if (selectedIndex === -1) {
             setSelectedImages((prev) => [...prev, item]);
         } else {
             setSelectedImages((prev) => [...prev].filter((selectedImage) => selectedImage.id !== item.id));
         }
+        setCId(parseInt(item.id.slice(1)))
+    };
+    useEffect(() => {
         if (selectedImages.length >= 2) {
-            const firstIndex = ImageData.findIndex((img) => img.id === selectedImages[0].id);
-            const lastIndex = ImageData.findIndex((img) => img.id === selectedImages[selectedImages.length - 1].id);
-            if (Math.abs(firstIndex - lastIndex) > 1) {
-                const selectedRange = ImageData.slice(
-                    Math.min(firstIndex, lastIndex) + 1,
-                    Math.max(firstIndex, lastIndex)
-                );
-                const unselectedImages = selectedRange.filter(
-                    (img) => !selectedImages.some((selectedImg) => selectedImg.id === img.id)
-                );
-                if (unselectedImages.length > 0) {
-                    const newSelectedImages = unselectedImages.map((img) => ({
-                        ...img,
-                        isChecked: true,
-                    }));
-                    setSelectedImages([...selectedImages, ...newSelectedImages]);
+            const num = GetMinAndMaxId(selectedImages)
+            const temp = ImageData.slice(num.min - 1, num.max)
+            setSelectedImages(temp)
+            if (cId > num.min && cId < num.max) {
+                console.log(cId)
+                let firstI = cId - num.min
+                let lastI = num.max - cId
+                if (firstI > lastI) {
+                    let firstPart = ImageData.slice(num.min - 1, cId - 1)
+                    setSelectedImages(firstPart)
+                } else {
+                    let secPart = ImageData.slice(cId, num.max)
+                    setSelectedImages(secPart)
                 }
             }
         }
-    };
-
+        // eslint-disable-next-line
+    }, [flag, cId])
     useEffect(() => {
         dispatch(setImagesInState(selectedImages))
     }, [selectedImages, dispatch])

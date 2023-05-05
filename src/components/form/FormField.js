@@ -9,6 +9,7 @@ import { toast } from 'react-hot-toast'
 const FormField = ({ id, open, setOpen }) => {
     const dispatch = useDispatch()
     const stateImage = useSelector(state => state.stateImage)
+    const validStatus = useSelector(state => state.validStatus)
     const [isSave, setIsSave] = useState(false)
     const [isEdit, setIsEdit] = useState(true)
     const [page, setPage] = useState({ id, startPage: null, endPage: null })
@@ -57,10 +58,9 @@ const FormField = ({ id, open, setOpen }) => {
     useEffect(() => {
         dispatch(updateTempSelect(page))
     }, [page, dispatch])
-
+    console.log('valid', CheckValidationInField(current))
     useEffect(() => {
         if (stateImage.length > 0) {
-            console.log('inside')
             const numId = GetMinAndMaxId(stateImage)
             setCurrent((prev) => ({
                 ...prev,
@@ -74,11 +74,13 @@ const FormField = ({ id, open, setOpen }) => {
             id: open,
         }))
     }, [dispatch, open])
-
     useEffect(() => {
         setIsEdit(!(open === id))
         setIsSave(open === id)
     }, [open, id])
+    console.log(validStatus)
+
+
     return (
         <>
             <div className='bg-blue-100 p-2 border border-blue-400 rounded relative'>
