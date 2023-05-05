@@ -2,24 +2,30 @@ import { Button, Label, TextInput } from 'flowbite-react'
 import React, { useEffect, useState } from 'react'
 import { AiFillDelete, AiFillEdit, AiFillSave } from 'react-icons/ai'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteFieldsInState, resetSelectedImages, resetTempSelect, setTempData, updateFieldsInState, updateTempSelect } from '../../redux/actions'
-import { CheckValidationInField, GetMinAndMaxId } from '../../utils/utils'
+import { deleteFieldsInState, resetSelectedImages, resetTempSelect, setIsValidAddField, setTempData, updateFieldsInState, updateTempSelect } from '../../redux/actions'
+import { CheckValidationForButton, CheckValidationInField, GetMinAndMaxId } from '../../utils/utils'
 import { toast } from 'react-hot-toast'
 
 const FormField = ({ id, open, setOpen }) => {
+    const fields = useSelector(state => state.fields)
     const dispatch = useDispatch()
     const stateImage = useSelector(state => state.stateImage)
-    const validStatus = useSelector(state => state.validStatus)
     const [isSave, setIsSave] = useState(false)
     const [isEdit, setIsEdit] = useState(true)
     const [page, setPage] = useState({ id, startPage: null, endPage: null })
-
     const [current, setCurrent] = useState({
         id,
         name: null,
         startPage: null,
         endPage: null
     })
+    // const [current, setCurrent] = useState({
+    //     id,
+    //     name: fields[id].name ? fields[id].name : null,
+    //     startPage: fields[id].startPage ? fields[id].startPage : null,
+    //     endPage: fields[id].endPage ? fields[id].endPage : null
+    // })
+
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setCurrent((prevState) => ({
@@ -34,18 +40,28 @@ const FormField = ({ id, open, setOpen }) => {
         }
     };
     const handleEdit = () => {
-        setOpen(id)
-        setIsSave(true)
-        setIsEdit(false)
+        if (CheckValidationForButton(fields)) {
+            setOpen(id)
+            setIsSave(true)
+            setIsEdit(false)
+            dispatch(setIsValidAddField(CheckValidationForButton(fields)))
+        } else {
+            toast.error(`Please Save Number ${open + 1} Chepatar`)
+        }
     }
     const handleSave = () => {
         if (CheckValidationInField(current)) {
-            setOpen(null)
-            setIsSave(false)
-            setIsEdit(true)
-            dispatch(updateFieldsInState(current))
-            dispatch(resetTempSelect())
-            dispatch(resetSelectedImages())
+            if (page.startPage > page.endPage) {
+                toast.error('Start Number can not be Greater than End Number')
+            } else {
+                setOpen(null)
+                setIsSave(false)
+                setIsEdit(true)
+                dispatch(updateFieldsInState(current))
+                dispatch(resetTempSelect())
+                dispatch(resetSelectedImages())
+                dispatch(setIsValidAddField(CheckValidationForButton(fields)))
+            }
         } else {
             toast.error("Please fill all the fields")
         }
@@ -54,11 +70,11 @@ const FormField = ({ id, open, setOpen }) => {
         setOpen(null)
         dispatch(deleteFieldsInState(id))
         dispatch(resetSelectedImages())
+        dispatch(setIsValidAddField(CheckValidationForButton(fields)))
     }
     useEffect(() => {
         dispatch(updateTempSelect(page))
     }, [page, dispatch])
-    console.log('valid', CheckValidationInField(current))
     useEffect(() => {
         if (stateImage.length > 0) {
             const numId = GetMinAndMaxId(stateImage)
@@ -78,9 +94,10 @@ const FormField = ({ id, open, setOpen }) => {
         setIsEdit(!(open === id))
         setIsSave(open === id)
     }, [open, id])
-    console.log(validStatus)
-
-
+    // console.log(IsStartEndPageIncluded(page, fields))
+    useEffect(() => {
+        dispatch(setIsValidAddField(CheckValidationForButton(fields)))
+    }, [current, dispatch, fields])
     return (
         <>
             <div className='bg-blue-100 p-2 border border-blue-400 rounded relative'>

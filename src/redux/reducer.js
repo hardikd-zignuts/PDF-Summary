@@ -6,7 +6,7 @@ const initialState = {
     selectTempData: [],
     fields: [],
     resetImage: false,
-    validStatus: false
+    validStatus: true
 }
 
 const pdfReducer = (state = initialState, action) => {
@@ -31,7 +31,7 @@ const pdfReducer = (state = initialState, action) => {
         case UPDATE_FIELDS_IN_STATE:
             let startPageNumber = parseInt(action.payLoad.startPage.trim())
             let endPageNumber = parseInt(action.payLoad.endPage.trim())
-
+            console.log(action.payLoad)
             let tempArr = [...state.fields]
             tempArr[action.payLoad.id] = {
                 ...action.payLoad,
