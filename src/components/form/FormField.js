@@ -6,26 +6,19 @@ import { deleteFieldsInState, resetSelectedImages, resetTempSelect, setIsValidAd
 import { CheckValidationForButton, CheckValidationInField, GetMinAndMaxId } from '../../utils/utils'
 import { toast } from 'react-hot-toast'
 
-const FormField = ({ id, open, setOpen }) => {
+const FormField = ({ id, open, setOpen, startPage, endPage, name }) => {
     const fields = useSelector(state => state.fields)
     const dispatch = useDispatch()
     const stateImage = useSelector(state => state.stateImage)
     const [isSave, setIsSave] = useState(false)
     const [isEdit, setIsEdit] = useState(true)
-    const [page, setPage] = useState({ id, startPage: null, endPage: null })
+    const [page, setPage] = useState({ id, startPage, endPage })
     const [current, setCurrent] = useState({
         id,
-        name: null,
-        startPage: null,
-        endPage: null
+        name,
+        startPage,
+        endPage
     })
-    // const [current, setCurrent] = useState({
-    //     id,
-    //     name: fields[id].name ? fields[id].name : null,
-    //     startPage: fields[id].startPage ? fields[id].startPage : null,
-    //     endPage: fields[id].endPage ? fields[id].endPage : null
-    // })
-
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setCurrent((prevState) => ({
@@ -94,7 +87,6 @@ const FormField = ({ id, open, setOpen }) => {
         setIsEdit(!(open === id))
         setIsSave(open === id)
     }, [open, id])
-    // console.log(IsStartEndPageIncluded(page, fields))
     useEffect(() => {
         dispatch(setIsValidAddField(CheckValidationForButton(fields)))
     }, [current, dispatch, fields])
@@ -109,6 +101,7 @@ const FormField = ({ id, open, setOpen }) => {
                             className='w-32 text-2xl'
                         />
                         <TextInput
+                            id={'name' + id}
                             onChange={handleInputChange}
                             disabled={isEdit}
                             className='text-2xl font-bold w-full   '
@@ -124,6 +117,7 @@ const FormField = ({ id, open, setOpen }) => {
                             className='w-32 text-2xl'
                         />
                         <TextInput
+                            id={'startPage' + id}
                             min={0}
                             value={current.startPage}
                             onChange={handleInputChange}
@@ -141,6 +135,7 @@ const FormField = ({ id, open, setOpen }) => {
                             className='w-32 text-2xl'
                         />
                         <TextInput
+                            id={'endPage' + id}
                             value={current.endPage}
                             min={0}
                             onChange={handleInputChange}

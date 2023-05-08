@@ -12,7 +12,6 @@ const FormBox = () => {
     const [isValid, setIsValid] = useState(false)
     const fields = useSelector(state => state.fields)
     const handleChapterAdd = () => {
-        // setIsValid(true)
         dispatch(setIsValidAddField(false))
         setOpen(fields.length)
         dispatch(setFieldsInState([...fields, {
@@ -41,6 +40,7 @@ const FormBox = () => {
                                 open={open}
                                 setOpen={setOpen}
                                 key={item.id}
+                                id={item.id}
                                 {...item}
                             />
                         )
