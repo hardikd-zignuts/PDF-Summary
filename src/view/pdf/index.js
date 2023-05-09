@@ -27,7 +27,6 @@ const PDF = () => {
             const temp = ImageData.slice(num.min - 1, num.max)
             setSelectedImages(temp)
             if (cId > num.min && cId < num.max) {
-                console.log(cId)
                 let firstI = cId - num.min
                 let lastI = num.max - cId
                 if (firstI > lastI) {
@@ -39,6 +38,7 @@ const PDF = () => {
                 }
             }
         }
+
         // eslint-disable-next-line
     }, [flag, cId])
     useEffect(() => {

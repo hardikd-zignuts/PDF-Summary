@@ -23,7 +23,7 @@ const ImageCard = ({ id, src, onSelect }) => {
             onClick={handleImageClick}
         >
             <img
-                className='h-auto max-w-full rounded-lg'
+                className='h-auto max-w-full rounded-lg hover:scale-105 transition-transform duration-500'
                 src={src}
                 alt='card data'
             />

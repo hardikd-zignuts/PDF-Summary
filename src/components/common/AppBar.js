@@ -1,4 +1,4 @@
-import { Avatar, Dropdown, Navbar } from 'flowbite-react'
+import { Avatar, DarkThemeToggle, Dropdown, Flowbite, Navbar } from 'flowbite-react'
 import React from 'react'
 
 const AppBar = () => {
@@ -35,7 +35,7 @@ const AppBar = () => {
                     </Dropdown>
                     <Navbar.Toggle />
                 </div>
-                <Navbar.Collapse>
+                <Navbar.Collapse className='navLink'>
                     <Navbar.Link href="/">
                         Home
                     </Navbar.Link>
@@ -45,6 +45,9 @@ const AppBar = () => {
                     <Navbar.Link href="/">
                         About
                     </Navbar.Link>
+                    <Flowbite>
+                        <DarkThemeToggle />
+                    </Flowbite>
                 </Navbar.Collapse>
             </Navbar>
         </>

@@ -28,7 +28,6 @@ export const GetMinAndMaxId = (arr) => {
 
 }
 
-
 export const CheckValidationForButton = (data) => {
     let flag = true
     for (let i = 0; i < data.length; i++) {

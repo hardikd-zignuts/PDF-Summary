@@ -45,7 +45,7 @@ const FormBox = () => {
                             />
                         )
                     }) :
-                        <div className='text-center text-3xl p-3'>
+                        <div className='text-center text-3xl p-3 dark:text-white'>
                             There are No Chapters
                         </div>
                 }

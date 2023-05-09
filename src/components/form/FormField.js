@@ -39,7 +39,7 @@ const FormField = ({ id, open, setOpen, startPage, endPage, name }) => {
             setIsEdit(false)
             dispatch(setIsValidAddField(CheckValidationForButton(fields)))
         } else {
-            toast.error(`Please Save Number ${open + 1} Chepatar`)
+            toast.error(`Please Save Number ${open + 1} Chapter`)
         }
     }
     const handleSave = () => {
@@ -65,7 +65,9 @@ const FormField = ({ id, open, setOpen, startPage, endPage, name }) => {
         dispatch(resetSelectedImages())
         dispatch(setIsValidAddField(CheckValidationForButton(fields)))
     }
+    // console.log(current)
     useEffect(() => {
+        // For slice Images
         dispatch(updateTempSelect(page))
     }, [page, dispatch])
     useEffect(() => {
@@ -98,13 +100,13 @@ const FormField = ({ id, open, setOpen, startPage, endPage, name }) => {
                     <div className='w-1/2 mx-3'>
                         <Label
                             value="Chapter Name"
-                            className='w-32 text-2xl'
+                            className='w-32 text-2xl dark:text-gray-950'
                         />
                         <TextInput
                             id={'name' + id}
                             onChange={handleInputChange}
                             disabled={isEdit}
-                            className='text-2xl font-bold w-full   '
+                            className='text-2xl font-bold w-full'
                             type="text"
                             sizing="sm"
                             name='name'
@@ -114,12 +116,12 @@ const FormField = ({ id, open, setOpen, startPage, endPage, name }) => {
                     <div className='w-1/4 mx-3'>
                         <Label
                             value="Start Page"
-                            className='w-32 text-2xl'
+                            className='w-32 text-2xl dark:text-gray-950'
                         />
                         <TextInput
                             id={'startPage' + id}
                             min={0}
-                            value={current.startPage}
+                            // value={(id === open) ? current.startPage : page.startPage}
                             onChange={handleInputChange}
                             disabled={isEdit}
                             className='text-2xl font-bold'
@@ -132,15 +134,15 @@ const FormField = ({ id, open, setOpen, startPage, endPage, name }) => {
                     <div className='w-1/4 mx-3'>
                         <Label
                             value="End Page"
-                            className='w-32 text-2xl'
+                            className='w-32 text-2xl dark:text-gray-950'
                         />
                         <TextInput
                             id={'endPage' + id}
-                            value={current.endPage}
+                            value={(id === open) ? current.endPage : page.endPage}
                             min={0}
                             onChange={handleInputChange}
                             disabled={isEdit}
-                            className='text-2xl font-bold w-full   '
+                            className='text-2xl font-bold w-full'
                             type="number"
                             sizing="sm"
                             name='endPage'
